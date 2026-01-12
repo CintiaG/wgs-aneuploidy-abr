@@ -231,7 +231,7 @@ Rscript scripts/plot_depth.R \
   out_data/sequencing_histograms.bed \
   files/chrom_index_cen.txt \
   sequencing \
-  600
+  300
 ```
 
 This step generates:
@@ -324,7 +324,7 @@ The script is robust to the absence of optional columns and will automatically a
 Copy number profiles (30 kb windows) and centromere-aware plots were generated using an in-house script.
 
 The third argument is a prefix used to label outputs (here: `sequencing`).
-The fourth argument (`600`) is the **maximum depth** threshold used for filtering (adjust per dataset).
+The fourth argument (`300`) is the **maximum depth** threshold used for filtering (adjust per dataset).
 The last argument (`8`) specifies the **maximum copy number** displayed in the plots.
 
 ```bash
@@ -334,7 +334,7 @@ Rscript scripts/plot_copies.R \
   files/sequencing.csv \
   files/chrom_index_cen.txt \
   sequencing \
-  600 \
+  300 \
   8
 ```
 
