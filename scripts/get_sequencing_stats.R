@@ -25,7 +25,13 @@ AlnFile <- args[3]
 OutFile <- args[4]
 
 # Trimmomatic stats file
-Df1 <- read.table(TrimFile, sep = "\t", header = TRUE)
+Df1 <- read.table(TrimFile,
+           header = TRUE,
+           sep = "",
+           fill = TRUE,
+           comment.char = "",
+           quote = "",
+           check.names = FALSE)
 
 # MultiQC file after trimming
 Df2 <- read.table(QualFile, sep = "\t", header = TRUE)
