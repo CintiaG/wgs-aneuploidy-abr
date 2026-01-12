@@ -479,9 +479,9 @@ for (i in 1:length(Samples)){
   CopiesDfGenome <- rbind(CopiesDfGenome, data.frame("Sample" = Sample,
                                                      "Code" = Code,
                                                      "Sample_number" = i,
-                                                     "Ploidy_base" = Ploidy_base,
-                                                     "Ploidy_bioinfo" = round(sum(WkCopiesDf$Weight) / GenomeSize),
-                                                     "Ploidy_bioinfo_exact" = Ploidy_exact,
+                                                     "Base_ploidy" = Ploidy_base,
+                                                     "Bioinfo_ploidy_rounded" = round(sum(WkCopiesDf$Weight) / GenomeSize),
+                                                     "Bioinfo_ploidy" = Ploidy_exact,
                                                      "Genome_Size" = round(sum(WkCopiesDf$Weight) / 1e6, 2),
                                                      "Aneuploidies" = Aneu))
   

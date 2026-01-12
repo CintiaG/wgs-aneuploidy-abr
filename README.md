@@ -401,7 +401,7 @@ Rscript scripts/allele_balance_ratio.R \
   files/chrom_index_cen.txt
 ```
 
-This creates a file `sequencing_strains_ABR.fst` a table with the compiled **AD**, **DP** and **ABR** information.
+This creates a file `sequencing_strains_ABR.fst`, a table with the compiled **AD**, **DP** and **ABR** information.
 
 ## Final visualization
 
@@ -420,4 +420,4 @@ Rscript scripts/plot_allele_balance_ratio.R \
   6
 ```
 
-Heterozygous-site counts and plots were computed using variants with 2–3 alleles (sites with >3 alleles were excluded).
+Heterozygous-site counts (`sequencing_het_sites.csv`) and plots were computed using variants with 2–3 alleles (sites with >3 alleles were excluded). The plots can be used to verify the agreement with chromosome copy number and **ABR**, and modified `Miss_Chr` column, if required.
