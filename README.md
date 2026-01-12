@@ -8,6 +8,47 @@ Updated: January 12, 2026
 
 ---
 
+<!-- TOC -->
+
+- [Whole-genome sequencing analysis pipeline for copy number, segmental aneuploidy, and allele balance inference](#whole-genome-sequencing-analysis-pipeline-for-copy-number-segmental-aneuploidy-and-allele-balance-inference)
+  - [Bioinformatic analysis workflow](#bioinformatic-analysis-workflow)
+  - [Directory structure](#directory-structure)
+  - [Read quality control and preprocessing](#read-quality-control-and-preprocessing)
+    - [Quality control – round 1](#quality-control--round-1)
+    - [Read trimming](#read-trimming)
+    - [Quality control – round 2](#quality-control--round-2)
+  - [Read alignment](#read-alignment)
+    - [Alignment and copy-number pipeline execution](#alignment-and-copy-number-pipeline-execution)
+    - [Alignment statistics](#alignment-statistics)
+  - [Sequencing depth calculation](#sequencing-depth-calculation)
+    - [Compile per-sample outputs](#compile-per-sample-outputs)
+      - [Depth per 30 kb windows](#depth-per-30-kb-windows)
+      - [Depth histograms](#depth-histograms)
+  - [Summarize sequencing, QC, and alignment statistics](#summarize-sequencing-qc-and-alignment-statistics)
+  - [Post-processing and visualization](#post-processing-and-visualization)
+    - [Estimation of genome-wide depth mode](#estimation-of-genome-wide-depth-mode)
+  - [Segmental aneuploidy detection](#segmental-aneuploidy-detection)
+    - [Algorithm overview](#algorithm-overview)
+    - [Algorithm modifications relative to the original ScRAP implementation](#algorithm-modifications-relative-to-the-original-scrap-implementation)
+      - [Copy number deviation thresholds](#copy-number-deviation-thresholds)
+      - [Telomeric window filtering](#telomeric-window-filtering)
+      - [Handling of low-coverage regions](#handling-of-low-coverage-regions)
+      - [Minimum segment size](#minimum-segment-size)
+      - [Sliding window size and gap tolerance](#sliding-window-size-and-gap-tolerance)
+    - [Required sample information table](#required-sample-information-table)
+    - [Optional columns](#optional-columns)
+    - [Copy number visualization in 30 kb windows](#copy-number-visualization-in-30-kb-windows)
+  - [Allele balance ratio calculation](#allele-balance-ratio-calculation)
+    - [Renaming VCF files](#renaming-vcf-files)
+    - [Allele depth and read depth](#allele-depth-and-read-depth)
+    - [Conversion to FST format](#conversion-to-fst-format)
+    - [Calculate allele balance ratio (ABR)](#calculate-allele-balance-ratio-abr)
+  - [Final visualization](#final-visualization)
+
+<!-- /TOC -->
+
+## Bioinformatic analysis workflow
+
 This notebook documents the command-line workflow used to process whole-genome sequencing data and generate downstream analyses, including:
 
 * chromosome copy number estimation
@@ -420,4 +461,4 @@ Rscript scripts/plot_allele_balance_ratio.R \
   6
 ```
 
-Heterozygous-site counts (`sequencing_het_sites.csv`) and plots were computed using variants with 2–3 alleles (sites with >3 alleles were excluded). The plots can be used to verify the agreement with chromosome copy number and **ABR**, and modified `Miss_Chr` column, if required.
+Heterozygous-site counts (`sequencing_het_sites.csv`) and plots were computed using variants with 2–3 alleles (sites with >3 alleles were excluded). The plots can be used to verify the agreement with chromosome copy number and **ABR**, and modify `Miss_Chr` column, if required.
