@@ -34,7 +34,7 @@
 #        Must include: Chr_NC, Size, Colors, Lines_30000, Mids_30000, CEN_30000
 #
 # Outputs:
-#   - figures/copies_<Prefix>/*_copies.tiff
+#   - figures/copies_<Prefix>_30Kb/*_copies.tiff
 #       Per-sample copy number and depth plots.
 #
 #   - out_data/<Prefix>_copy_number_aneu.csv
@@ -43,7 +43,7 @@
 #   - out_data/<Prefix>_copy_number.csv
 #       Genome-wide copy number and aneuploidy summary per sample.
 #
-#   - out_data/<Prefix>_aneuploid_regions.csv
+#   - out_data/<Prefix>_regions_aneu.csv
 #       Coordinates and properties of all detected copy number segments.
 #
 #   - out_data/<Prefix>_depth_per_aneu.csv
@@ -472,14 +472,16 @@ for (i in 1:length(Samples)){
   
   # Filter aneuploidies
   Aneu <- Aneu[!Aneu == ""]
+  Aneu <- paste(Aneu, collapse = ";")
+  Aneu <- ifelse(Aneu == "", "euploid", paste0("aneu;", Aneu, ";"))
   
   # Add genome information 
   CopiesDfGenome <- rbind(CopiesDfGenome, data.frame("Sample" = Sample,
                                                      "Code" = Code,
                                                      "Sample_number" = i,
-                                                     "Base_ploidy" = Ploidy_base,
-                                                     "Bioinfo_ploidy" = Ploidy_exact,
-                                                     "Bioinfo_ploidy_rounded" = round(sum(WkCopiesDf$Weight) / GenomeSize),
+                                                     "Ploidy_base" = Ploidy_base,
+                                                     "Ploidy_bioinfo" = round(sum(WkCopiesDf$Weight) / GenomeSize),
+                                                     "Ploidy_bioinfo_exact" = Ploidy_exact,
                                                      "Genome_Size" = round(sum(WkCopiesDf$Weight) / 1e6, 2),
                                                      "Aneuploidies" = Aneu))
   
@@ -596,6 +598,6 @@ write.csv(CopiesDfGenome, paste0("out_data/", Prefix, "_copy_number.csv"), row.n
 
 write.csv(AllDepths, paste0("out_data/", Prefix, "_depth_per_aneu.csv"), row.names = FALSE)
 
-write.csv(AllRegionsDf, paste0("out_data/", Prefix, "_aneuploid_regions.csv"), row.names = FALSE)
+write.csv(AllRegionsDf, paste0("out_data/", Prefix, "_regions_aneu.csv"), row.names = FALSE)
 
 write.csv(AllHists, paste0("out_data/", Prefix, "_histograms_aneu.csv"), row.names = FALSE)

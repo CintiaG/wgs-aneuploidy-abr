@@ -341,7 +341,7 @@ Rscript scripts/plot_copies.R \
   6
 ```
 
-To enable downstream visualization and annotation (e.g. in ABR plots), `Bioinfo_ploidy` column, contained in `out_data/sequencing_copy_number.csv` should be added to the sample metadata file (`files/sequencing.csv`).
+**Note:** To enable downstream visualization and annotation (e.g. in ABR plots), `Bioinfo_ploidy` column, contained in `out_data/sequencing_copy_number.csv` should be added to the sample metadata file (`files/sequencing.csv`).
 
 ## Allele balance ratio calculation
 
@@ -411,11 +411,11 @@ Allele balance ratio (ABR) and copy-number profiles were combined in a final set
 Rscript scripts/plot_allele_balance_ratio.R \
   files/sequencing.csv \
   out_data/sequencing_strains_ABR.fst \
-  out_data/sequencing_histograms_30Kb_aneu.csv \
-  out_data/sequencing_depth_per_30Kb_aneu.csv \
+  out_data/sequencing_histograms_aneu.csv \
+  out_data/sequencing_depth_per_aneu.csv \
   files/chrom_index_cen.txt \
-  out_data/sequencing_copy_number_30Kb_aneu.csv \
-  out_data/sequencing_aneuploid_regions.csv \
+  out_data/sequencing_copy_number_aneu.csv \
+  out_data/sequencing_regions_aneu.csv \
   sequencing \
   6
 ```
