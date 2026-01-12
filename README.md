@@ -146,12 +146,13 @@ This command computes basic alignment metrics (e.g. total reads, mapped reads, p
 
 A summary table of alignment statistics was generated from the individual **samtools flagstat** output files.
 
+
 ```bash
 echo -e "Sample\tMapped_reads\tMapped_reads_percent" > out_data/alignment_stats.txt
 ls results/bam/*_flagstat.txt | parallel \
 "paste <(echo '{/}' | sed 's/_.*//') \
-<(grep 'mapped (' {} | sed 's/ .*//') \
-<(grep 'mapped (' {} | sed 's/.*(// ; s/ .*//')" \
+<(grep '0 mapped (' {} | sed 's/ .*//') \
+<(grep '0 mapped (' {} | sed 's/.*(// ; s/ .*//')" \
 >> out_data/alignment_stats.txt
 ```
 
