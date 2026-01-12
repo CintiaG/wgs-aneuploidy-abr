@@ -10,6 +10,8 @@ Updated: January 12, 2026
 
 <!-- TOC -->
 
+## Table of Contents
+
 - [Whole-genome sequencing analysis pipeline for copy number, segmental aneuploidy, and allele balance inference](#whole-genome-sequencing-analysis-pipeline-for-copy-number-segmental-aneuploidy-and-allele-balance-inference)
   - [Bioinformatic analysis workflow](#bioinformatic-analysis-workflow)
   - [Directory structure](#directory-structure)
