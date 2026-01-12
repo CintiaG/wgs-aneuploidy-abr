@@ -17,6 +17,7 @@
 # Usage:
 #   Rscript scripts/plot_depth.R \
 #     out_data/sequencing_histograms.bed \
+#     files/sequencing.csv \
 #     files/chrom_index_cen.txt \
 #     sequencing \
 #     600
@@ -32,13 +33,21 @@ if (length(args) < 4) {
 }
 
 HistFile <- args[1]
-IndexFile <- args[2]
-Prefix <- args[3]
-Max <- as.numeric(args[4])
+DfFile <- args[2]
+IndexFile <- args[3]
+Prefix <- args[4]
+Max <- as.numeric(args[5])
 OutDir <- paste0("figures/histograms_", Prefix, "/")
 
 dir.create(OutDir, recursive = TRUE, showWarnings = FALSE)
 dir.create("out_data", recursive = TRUE, showWarnings = FALSE)
+
+# Read sample data frame to plot by order of sample
+Df <- read.csv(DfFile)
+
+# Remove samples that were not sequenced
+Df <- Df[!is.na(Df$Sample),]
+Samples <- Df$Sample
 
 DfIndex <- read.table(IndexFile, header = TRUE, sep = "\t", quote = "\"",
                       stringsAsFactors = FALSE)
@@ -58,8 +67,6 @@ HistDf$Freq  <- as.numeric(HistDf$Freq)
 # Filter mitochondrial DNA
 HistDf <- HistDf[HistDf$Chr != "ref|NC_001224|",]
 
-Samples <- unique(HistDf$Sample)
-
 Labeler <- setNames(DfIndex$Chr_rom, DfIndex$Chr_NC)
 Labeler["genome"] <- "genome"
 
@@ -67,7 +74,6 @@ DfMode <- NULL
 
 for (i in 1:length(Samples)){
   Sample <- Samples[i]
-  #Code <- Codes[i]
   
   # Subset one sample
   WkHistDf <- HistDf[HistDf$Sample == Sample,]
@@ -84,7 +90,7 @@ for (i in 1:length(Samples)){
   ReadsMode <- WkHistDfGenome$Depth[which.max(WkHistDfGenome$Freq)]
   
   # Keep track of depth bin
-  DfMode <- rbind(DfMode, data.frame("Sample" = Sample, "Mode" = ReadsMode))
+  DfMode <- rbind(DfMode, data.frame("Sample" = Sample, "Depth_mode" = ReadsMode))
   
   Pl <- ggplot(WkHistDf, aes(Depth, Freq, color = Chr)) +
     geom_line() +

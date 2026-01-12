@@ -12,7 +12,7 @@
 #   - Code
 #   - Mean_ploidy
 #   - Rounded_ploidy
-#   - Ploidy_bioinfo_exact
+#   - Bioinfo_ploidy
 #
 # In addition, the script computes and exports the number of heterozygous sites
 # per sample (after ABR filtering) to:
@@ -39,10 +39,10 @@
 #   Rscript scripts/plot_allele_balance_ratio.R \
 #     files/sequencing.csv \
 #     out_data/sequencing_ABR.fst \
-#     out_data/sequencing_histograms_30Kb_aneu.csv \
-#     out_data/sequencing_depth_per_30Kb_aneu.csv \
+#     out_data/sequencing_histograms_aneu.csv \
+#     out_data/sequencing_depth_per_aneu.csv \
 #     files/chrom_index_cen.txt \
-#     out_data/sequencing_copy_number_30Kb.csv \
+#     out_data/sequencing_copy_number_aneu.csv \
 #     out_data/sequencing_aneuploid_regions.csv \
 #     sequencing \
 #     8
@@ -117,12 +117,12 @@ for (i in 1:length(Strains)){
   # Safe access to optional ploidy columns
   HasMeanPloidy <- "Mean_ploidy" %in% colnames(StrainsDf)
   HasRoundedPloidy <- "Rounded_ploidy" %in% colnames(StrainsDf)
-  HasBioinfoPloidy <- "Ploidy_bioinfo_exact" %in% colnames(StrainsDf)
+  HasBioinfoPloidy <- "Bioinfo_ploidy" %in% colnames(StrainsDf)
   
   MeanP <- if (HasMeanPloidy) StrainsDf$Mean_ploidy[i] else NA
   RoundP <- if (HasRoundedPloidy) StrainsDf$Rounded_ploidy[i] else NA
   BaseP <- StrainsDf$Base_ploidy[i]
-  BioP  <- if (HasBioinfoPloidy) StrainsDf$Ploidy_bioinfo_exact[i] else NA
+  BioP  <- if (HasBioinfoPloidy) StrainsDf$Bioinfo_ploidy[i] else NA
   
   UpThres <- (1 + round(0.7 * (1 / Ploidy), 2)) * Ploidy
   DownThres <- (1 - round(0.7 * (1 / Ploidy), 2)) * Ploidy

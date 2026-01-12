@@ -224,11 +224,12 @@ The modal sequencing depth (“genome depth mode”) was estimated from the dept
 
 The third argument is a **prefix** used to label outputs (e.g. when processing multiple sequencing projects). In this notebook, we use the prefix `sequencing`. The fourth argument specifies the **maximum depth threshold** used for filtering and should be adjusted according to the project.
 
-This modal depth typically correlates with the **baseline ploidy**, i.e. the most frequent chromosome copy number state across the genome.
+This modal depth typically correlates with the **baseline ploidy**, i.e. the most frequent chromosome copy number state across the genome. The script requires a metadata information file (`sequencing.csv`) that up to this point requires only the `Sample` information (see Required sample information table below).
 
 ```bash
 Rscript scripts/plot_depth.R \
   out_data/sequencing_histograms.bed \
+  files/sequencing.csv \
   files/chrom_index_cen.txt \
   sequencing \
   300
@@ -238,6 +239,8 @@ This step generates:
 
 * per-sample depth histogram plots in `figures/histograms_sequencing/`
 * a per-sample table of modal depths: `out_data/sequencing_depth_mode.csv`
+
+**Note:** copy the `Depth_mode` column from `out_data/sequencing_depth_mode.csv` to the `sequencing.csv` metadata file for the next step.
 
 ## Segmental aneuploidy detection
 
@@ -253,9 +256,9 @@ Copy number per window is computed as:
 
 For each chromosome, consecutive windows with copy number values deviating from the baseline ploidy are grouped into contiguous segments, allowing for gaps up to the window size (30 kb). Deviations are classified as:
 
-* **increase** — copy number above an upper threshold
-* **decrease** — copy number below a lower threshold
-* **normal** — copy number within threshold bounds
+* **increase**
+* **decrease**
+* **normal**
 
 Thresholds are defined as a function of the baseline ploidy to account for different ploidy states.
 
@@ -325,7 +328,7 @@ Copy number profiles (30 kb windows) and centromere-aware plots were generated u
 
 The third argument is a prefix used to label outputs (here: `sequencing`).
 The fourth argument (`300`) is the **maximum depth** threshold used for filtering (adjust per dataset).
-The last argument (`8`) specifies the **maximum copy number** displayed in the plots.
+The last argument (`6`) specifies the **maximum copy number** displayed in the plots.
 
 ```bash
 Rscript scripts/plot_copies.R \
@@ -335,10 +338,10 @@ Rscript scripts/plot_copies.R \
   files/chrom_index_cen.txt \
   sequencing \
   300 \
-  8
+  6
 ```
 
-To enable downstream visualization and annotation (e.g. in ABR plots), `Ploidy_bioinfo_exact` column, contained in `out_data/sequencing_copy_number_genome_30Kb.csv` should be added to the sample metadata file (`files/sequencing.csv`).
+To enable downstream visualization and annotation (e.g. in ABR plots), `Bioinfo_ploidy` column, contained in `out_data/sequencing_copy_number.csv` should be added to the sample metadata file (`files/sequencing.csv`).
 
 ## Allele balance ratio calculation
 
@@ -411,10 +414,10 @@ Rscript scripts/plot_allele_balance_ratio.R \
   out_data/sequencing_histograms_30Kb_aneu.csv \
   out_data/sequencing_depth_per_30Kb_aneu.csv \
   files/chrom_index_cen.txt \
-  out_data/sequencing_copy_number_30Kb.csv \
+  out_data/sequencing_copy_number_30Kb_aneu.csv \
   out_data/sequencing_aneuploid_regions.csv \
   sequencing \
-  8
+  6
 ```
 
 Heterozygous-site counts and plots were computed using variants with 2–3 alleles (sites with >3 alleles were excluded).

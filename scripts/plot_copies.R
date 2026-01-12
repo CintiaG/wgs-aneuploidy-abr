@@ -34,22 +34,22 @@
 #        Must include: Chr_NC, Size, Colors, Lines_30000, Mids_30000, CEN_30000
 #
 # Outputs:
-#   - figures/copies_<Prefix>_30Kb/*_copies.tiff
+#   - figures/copies_<Prefix>/*_copies.tiff
 #       Per-sample copy number and depth plots.
 #
-#   - out_data/<Prefix>_copy_number_30Kb.csv
+#   - out_data/<Prefix>_copy_number_aneu.csv
 #       Copy number per chromosome and segmented region.
 #
-#   - out_data/<Prefix>_copy_number_genome_30Kb.csv
+#   - out_data/<Prefix>_copy_number.csv
 #       Genome-wide copy number and aneuploidy summary per sample.
 #
 #   - out_data/<Prefix>_aneuploid_regions.csv
 #       Coordinates and properties of all detected copy number segments.
 #
-#   - out_data/<Prefix>_depth_per_30Kb_aneu.csv
+#   - out_data/<Prefix>_depth_per_aneu.csv
 #       Depth and inferred copy number per 30 kb window.
 #
-#   - out_data/<Prefix>_histograms_30Kb_aneu.csv
+#   - out_data/<Prefix>_histograms_aneu.csv
 #       Histogram data restricted to regions used in aneuploidy detection.
 #
 # Usage:
@@ -232,7 +232,7 @@ DepthFile <- args[2]
 DfFile <- args[3]
 IndexFile <- args[4]
 Prefix <- args[5]
-OutDir <- paste0("figures/copies_", Prefix, "_30Kb/")
+OutDir <- paste0("figures/copies_", Prefix, "/")
 
 dir.create(OutDir, recursive = TRUE, showWarnings = FALSE)
 dir.create("out_data", recursive = TRUE, showWarnings = FALSE)
@@ -473,33 +473,16 @@ for (i in 1:length(Samples)){
   # Filter aneuploidies
   Aneu <- Aneu[!Aneu == ""]
   
-  AneuNb <- length(Aneu)
-  
-  AneuPlus <- length(grep("\\+", Aneu))
-  
-  AneuMinus <- length(grep("-", Aneu))
-  
-  Aneu3 <- grep("\\*3", Aneu, value = TRUE)
-  
-  Aneu <- paste(Aneu, collapse = ";")
-  Aneu3 <- paste(Aneu3, collapse = ";")
-  
-  Aneu <- ifelse(Aneu == "", "euploid", paste0("aneu;", Aneu, ";"))
-  Aneu3 <- ifelse(Aneu3 == "", "", paste0("aneu;", Aneu3, ";"))
-  
   # Add genome information 
   CopiesDfGenome <- rbind(CopiesDfGenome, data.frame("Sample" = Sample,
                                                      "Code" = Code,
                                                      "Sample_number" = i,
-                                                     "Ploidy_base" = Ploidy_base,
-                                                     "Ploidy_bioinfo" = round(sum(WkCopiesDf$Weight) / GenomeSize),
-                                                     "Ploidy_bioinfo_exact" = Ploidy_exact,
+                                                     "Base_ploidy" = Ploidy_base,
+                                                     "Bioinfo_ploidy" = Ploidy_exact,
+                                                     "Bioinfo_ploidy_rounded" = round(sum(WkCopiesDf$Weight) / GenomeSize),
                                                      "Genome_Size" = round(sum(WkCopiesDf$Weight) / 1e6, 2),
-                                                     "Aneuploidies" = Aneu,
-                                                     "Aneu_nb" = AneuNb,
-                                                     "Aneu_Plus" = AneuPlus,
-                                                     "Aneu_Minus" = AneuMinus,
-                                                     "Aneu_Chr3" = Aneu3))
+                                                     "Aneuploidies" = Aneu))
+  
   CopiesDf <- rbind(CopiesDf, WkCopiesDf)
   
   AllDepths <- rbind(AllDepths, WkDepthDf)
@@ -607,12 +590,12 @@ for (i in 1:length(Samples)){
 }
 
 # Save
-write.csv(CopiesDf, paste0("out_data/", Prefix, "_copy_number_30Kb.csv"), row.names = FALSE)
+write.csv(CopiesDf, paste0("out_data/", Prefix, "_copy_number_aneu.csv"), row.names = FALSE)
 
-write.csv(CopiesDfGenome, paste0("out_data/", Prefix, "_copy_number_genome_30Kb.csv"), row.names = FALSE)
+write.csv(CopiesDfGenome, paste0("out_data/", Prefix, "_copy_number.csv"), row.names = FALSE)
 
-write.csv(AllDepths, paste0("out_data/", Prefix, "_depth_per_30Kb_aneu.csv"), row.names = FALSE)
+write.csv(AllDepths, paste0("out_data/", Prefix, "_depth_per_aneu.csv"), row.names = FALSE)
 
 write.csv(AllRegionsDf, paste0("out_data/", Prefix, "_aneuploid_regions.csv"), row.names = FALSE)
 
-write.csv(AllHists, paste0("out_data/", Prefix, "_histograms_30Kb_aneu.csv"), row.names = FALSE)
+write.csv(AllHists, paste0("out_data/", Prefix, "_histograms_aneu.csv"), row.names = FALSE)
