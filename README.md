@@ -183,16 +183,19 @@ Per-sample depth summaries were concatenated into combined, sample-annotated tab
 #### Depth per 30 kb windows
 
 ```bash
-ls results/bedtools/*depth_per_30Kb.bed | sed 's/_.*//' | parallel -j 1 \
-"sed 's/^/{}\t/' {}_depth_per_30Kb.bed" \
+ls results/bedtools/*depth_per_30Kb.bed | parallel -j 1 \
+'awk -v s="{/}" '\''{print s "\t" $0}'\'' {}' | sed 's/_depth_per_30Kb.bed//' \
 > out_data/sequencing_depth_per_30Kb.bed
 ```
+
+ls bedtools/*depth_per_30Kb.bed | parallel -j 1 'awk -v s="{/}" '\''{print s "\t" $0}'\'' {}' | sed 's/_depth_per_30Kb.bed//'
+
 
 #### Depth histograms
 
 ```bash
-ls results/bedtools/*histograms.bed | sed 's/_.*//' | parallel -j 1 \
-"sed 's/^/{}\t/' {}_histograms.bed" \
+ls results/bedtools/*histograms.bed | parallel -j 1 \
+'awk -v s="{/}" '\''{print s "\t" $0}'\'' {}' | sed 's/_histograms.bed//' \
 > out_data/sequencing_histograms.bed
 ```
 
