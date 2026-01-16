@@ -360,7 +360,7 @@ The sample information file (e.g. `files/sequencing.csv`) must contain **at leas
 The following columns are optional but supported by the pipeline:
 
 * `Code` — Short sample identifier used for plotting and file naming. If not provided or empty, the script automatically falls back to using Sample.
-* `Miss_Chr` — Manual copy-number correction string (e.g. `+1*3;-1*7`). Can be left empty on the first run and filled during manual curation to correct systematic mis-detections.
+* `Aneu_correction` — Manual copy-number correction string (e.g. `aneu;+1*3;-1*7`). Can be left empty on the first run and filled during manual curation to correct systematic mis-detections. The `aneu;` prefix prevents spreadsheet software from interpreting the string as a formula.
 * `Mean_ploidy`, `Rounded_ploidy` — Optional ploidy summary values (e.g. from independent estimates). Used only for plot titles when available; if absent, plots display the baseline ploidy (Base_ploidy) instead.
 
 The script is robust to the absence of optional columns and will automatically adjust plot annotations and labels accordingly.
@@ -463,4 +463,4 @@ Rscript scripts/plot_allele_balance_ratio.R \
   6
 ```
 
-Heterozygous-site counts (`sequencing_het_sites.csv`) and plots were computed using variants with 2–3 alleles (sites with >3 alleles were excluded). The plots can be used to verify the agreement with chromosome copy number and **ABR**, and modify `Miss_Chr` column, if required.
+Heterozygous-site counts (`sequencing_het_sites.csv`) and plots were computed using variants with 2–3 alleles (sites with >3 alleles were excluded). The plots can be used to verify the agreement with chromosome copy number and **ABR**, and modify `Aneu_correction` column, if required.

@@ -1,3 +1,4 @@
 # Ignore example files
 figures/
 out_data/
+files/sequencing.csv

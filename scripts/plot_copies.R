@@ -27,7 +27,7 @@
 #          - Depth_mode
 #        Optional columns:
 #          - Code (short sample identifier for plotting)
-#          - Miss_Chr (manual copy number corrections)
+#          - Aneu_correction (manual copy number corrections)
 #          - Mean_ploidy, Rounded_ploidy (used only for plot titles, if present)
 #
 #   4) Chromosome index file (tab-delimited, header required):
@@ -199,7 +199,7 @@ PostFilter <- function(Df){
 
 CorrectCopies <- function(Correction, Df, Column, Type){
   if (Correction != ""){
-    CorrSep <- unlist(strsplit(Correction, ";"))
+    CorrSep <- unlist(strsplit(sub("aneu;", "", Correction), ";"))
     for (Corr in CorrSep){
       CorrIdx <- as.numeric(sub(".*\\*", "", Corr))
       CorrNmb <- as.numeric(sub("\\*.*", "", Corr))
@@ -253,13 +253,13 @@ DepthDf <- DepthDf[DepthDf$Chr != "ref|NC_001224|",]
 
 # Read sample data frame to plot by order of sample
 Df <- read.csv(DfFile)
-if (!("Miss_Chr" %in% colnames(Df))) Df$Miss_Chr <- ""
-Df$Miss_Chr[is.na(Df$Miss_Chr)] <- ""
+if (!("Aneu_correction" %in% colnames(Df))) Df$Aneu_correction <- ""
+Df$Aneu_correction[is.na(Df$Aneu_correction)] <- ""
 
 Samples <- Df$Sample
 Codes <- if ("Code" %in% colnames(Df)) Df$Code else rep(NA_character_, nrow(Df))
 Ploidies <- Df$Base_ploidy
-Corrections <- Df$Miss_Chr
+Corrections <- Df$Aneu_correction
 
 # Read index and lines file
 DfIndex <- read.table(IndexFile, header = TRUE, sep = "\t", quote = "\"",
