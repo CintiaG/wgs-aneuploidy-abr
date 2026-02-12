@@ -189,12 +189,12 @@ A summary table of alignment statistics was generated from the individual **samt
 
 
 ```bash
-echo -e "Sample\tMapped_reads\tMapped_reads_percent" > stats/alignment_stats.txt
+echo -e "Sample\tMapped_reads\tMapped_reads_percent" > results/stats/alignment_stats.txt
 ls results/bam/*_flagstat.txt | parallel \
 "paste <(echo '{/}' | sed 's/_.*//') \
 <(grep '0 mapped (' {} | sed 's/ .*//') \
 <(grep '0 mapped (' {} | sed 's/.*(// ; s/ .*//')" \
->> stats/alignment_stats.txt
+>> results/stats/alignment_stats.txt
 ```
 
 The resulting file (`stats/alignment_stats.txt`) contains, for each sample, the number and percentage of mapped reads.
