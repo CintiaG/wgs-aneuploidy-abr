@@ -249,13 +249,13 @@ Trimming statistics (**Trimmomatic**), post-trimming QC metrics (**FastQC/MultiQ
 
 ```bash
 Rscript scripts/get_sequencing_stats.R \
-  out_data/trimming_stats.txt \
+  stats/trimming_stats.txt \
   quals/multiqc_rnd2/multiqc_fastqc.txt \
-  out_data/alignment_stats.txt \
-  out_data/sequencing_stats.txt
+  stats/alignment_stats.txt \
+  stats/sequencing_stats.txt
 ```
 
-The resulting file (`out_data/sequencing_stats.txt`) contains per-sample sequencing and mapping summary metrics and is used for downstream reporting and visualization.
+The resulting file (`stats/sequencing_stats.txt`) contains per-sample sequencing and mapping summary metrics and is used for downstream reporting and visualization.
 
 ## Post-processing and visualization
 
