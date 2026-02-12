@@ -230,9 +230,6 @@ ls results/bedtools/*depth_per_30Kb.bed | parallel -j 1 \
 > out_data/sequencing_depth_per_30Kb.bed
 ```
 
-ls bedtools/*depth_per_30Kb.bed | parallel -j 1 'awk -v s="{/}" '\''{print s "\t" $0}'\'' {}' | sed 's/_depth_per_30Kb.bed//'
-
-
 #### Depth histograms
 
 ```bash
